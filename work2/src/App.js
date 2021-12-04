@@ -11,17 +11,26 @@ class App extends Component {
     };
   }
 
+  getRandomIntInclusive(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
   randomNumber(max) {
     return Math.floor(Math.random() * max);
   }
 
+  randomCount = this.getRandomIntInclusive(0, 20);
+
   randomNumberList() {
     let arr = [];
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < this.randomCount; i++) {
       arr.push(this.randomNumber(1000));
     }
     return arr;
   }
+
   addRandomNumber = () => {
     const { value } = this.state;
 

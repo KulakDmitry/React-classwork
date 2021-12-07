@@ -13,7 +13,7 @@ class Button extends Component {
     const { color } = this.props;
     return (
       <button style={{ cursor: "default", backgroundColor: color }}>
-        button
+        {this.props.children}
       </button>
     );
   }

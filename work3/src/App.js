@@ -38,7 +38,7 @@ class App extends Component {
     return (
       <div className="App">
         <button onClick={this.start}>start</button>
-        <Button color={color} />
+        <Button color={color}>BUTTON</Button>
         <button onClick={this.stop}>stop</button>
       </div>
     );

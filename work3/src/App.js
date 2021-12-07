@@ -22,11 +22,6 @@ class App extends Component {
       this.setState({
         color: this.array[this.randomNumber(this.array.length)],
       });
-
-      if (this.state.color === "yellow") {
-        clearInterval(this.intervalId);
-        alert("YELLOW");
-      }
     }, 1000);
   };
 
@@ -34,7 +29,11 @@ class App extends Component {
     const { color } = this.state;
     return (
       <div className="App">
-        <Button changeColor={this.changeColor} color={color}>
+        <Button
+          changeColor={this.changeColor}
+          color={color}
+          {...(color === "yellow" && alert("YELLOW"))}
+        >
           Click to start change color
         </Button>
       </div>

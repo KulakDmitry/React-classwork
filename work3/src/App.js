@@ -7,11 +7,11 @@ class App extends Component {
     super(props);
 
     this.state = {
-      color: "grey",
+      color: "pink",
     };
   }
 
-  array = ["red", "green", "blue", "pink", "yellow", "grey"];
+  array = ["red", "green", "blue", "pink", "yellow", "orange"];
 
   randomNumber(max) {
     return Math.floor(Math.random() * max);
@@ -25,17 +25,21 @@ class App extends Component {
     }, 1000);
   };
 
+  stop = () => {
+    clearInterval(this.intervalId);
+  };
+
+  start = () => {
+    this.changeColor();
+  };
+
   render() {
     const { color } = this.state;
     return (
       <div className="App">
-        <Button
-          changeColor={this.changeColor}
-          color={color}
-          {...(color === "yellow" && alert("YELLOW"))}
-        >
-          Click to start change color
-        </Button>
+        <button onClick={this.start}>start</button>
+        <Button color={color} />
+        <button onClick={this.stop}>stop</button>
       </div>
     );
   }

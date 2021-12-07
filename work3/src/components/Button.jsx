@@ -1,11 +1,22 @@
-import React from "react";
+import React, { Component } from "react";
 
-const Button = ({ children, color, changeColor }) => {
-  return (
-    <button style={{ backgroundColor: color }} onClick={changeColor}>
-      {children}
-    </button>
-  );
-};
+class Button extends Component {
+  shouldComponentUpdate(nextProps) {
+    if (nextProps.color === "yellow") {
+      alert("YELLOW");
+      return false;
+    }
+    return true;
+  }
+
+  render() {
+    const { color } = this.props;
+    return (
+      <button style={{ cursor: "default", backgroundColor: color }}>
+        button
+      </button>
+    );
+  }
+}
 
 export default Button;

@@ -15,9 +15,7 @@ export default class FormikForm extends Component {
           comment: "",
           payment: "cash",
           date: "",
-          delivery: {
-            option: "post",
-          },
+          delivery: "EMS",
           terms: false,
         }}
         onSubmit={(values) => alert(JSON.stringify(values))}

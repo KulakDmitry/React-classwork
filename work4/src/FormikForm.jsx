@@ -1,5 +1,11 @@
 import React, { Component } from "react";
 import { Formik, Form, Field } from "formik";
+import * as Yup from "yup";
+import FormInput from "./FormInput";
+import FormSelect from "./FormSelect";
+import FormRadio from "./FormRadio";
+
+const regex = /^(0*[1-9][0-9]*(\.[0-9]*)?|0*\.[0-9]*[1-9][0-9]*)$/;
 
 export default class FormikForm extends Component {
   render() {
@@ -13,78 +19,95 @@ export default class FormikForm extends Component {
           city: "",
           address: "",
           comment: "",
-          payment: "cash",
+          payment: "",
           date: "",
-          delivery: "EMS",
+          delivery: "",
           terms: false,
         }}
         onSubmit={(values) => alert(JSON.stringify(values))}
+        validationSchema={Yup.object().shape({
+          userLastName: Yup.string()
+            .required("last name is required")
+            .max(20, "need less than 20"),
+          userFirstName: Yup.string()
+            .required("first name is required")
+            .max(20, "need less than 20"),
+          email: Yup.string()
+            .email("Email should be in a correct format")
+            .required("Email is required"),
+          phoneNumber: Yup.string()
+            .matches(regex, "need to enter only a number")
+            .max(15, "need less than 15")
+            .min(7, "need more than 7")
+            .required("phone number is required"),
+          city: Yup.string().required("city is required"),
+          address: Yup.string().required("address is required"),
+          payment: Yup.string().required("choose one of them"),
+          date: Yup.string().required("choose a date"),
+          delivery: Yup.string().required("delivery is required"),
+          terms: Yup.boolean().isTrue("need accept"),
+        })}
       >
-        <Form>
-          <fieldset>
-            <legend>Personal Information</legend>
-            <div>
-              <label>Last Name *</label>
-              <Field name="userLastName" />
-            </div>
-            <div>
-              <label>First Name *</label>
-              <Field name="userFirstName" />
-            </div>
-            <div>
-              <label>Email</label>
-              <Field name="email" />
-            </div>
-            <div>
-              <label>Phone Number *</label>
-              <Field name="phoneNumber" />
-            </div>
-            <div>
-              <label>City *</label>
-              <Field name="city" />
-            </div>
-            <div>
-              <label>Address *</label>
-              <Field name="address" />
-            </div>
-          </fieldset>
-          <div className="comment">
-            <label>Comment</label>
-            <Field as="textarea" name="comment" />
-          </div>
-          <div>
-            <fieldset className="payment">
-              <legend>Choose a payment method</legend>
-              <div>
-                <Field type="radio" name="payment" id="card" value="card" />
-                <label htmlFor="card">Card</label>
-              </div>
-              <div>
-                <Field type="radio" name="payment" id="cash" value="cash" />
-                <label htmlFor="cash">Cash</label>
-              </div>
+        {({ isValid }) => (
+          <Form>
+            <fieldset className="personal-info">
+              <legend>Personal Information</legend>
+              <Field
+                name="userLastName"
+                label="Last Name"
+                component={FormInput}
+              />
+              <Field
+                name="userFirstName"
+                label="First Name"
+                component={FormInput}
+              />
+              <Field name="email" label="Email" component={FormInput} />
+              <Field
+                name="phoneNumber"
+                label="Phone Number"
+                component={FormInput}
+              />
+              <Field name="city" label="City" component={FormInput} />
+              <Field name="address" label="Address" component={FormInput} />
             </fieldset>
-          </div>
-
-          <div className="delivery">
-            <label>Choose a delivery method</label>
-            <Field as="select" name="delivery">
-              <option value="ems">EMS</option>
-              <option value="post">Post</option>
-              <option value="free">Free</option>
-            </Field>
-          </div>
-          <div className="date">
-            <label>Delivery Date</label>
-            <Field type="date" name="date" />
-          </div>
-          <div>
-            <label>Terms</label>
-            <Field type="checkbox" name="terms" id="terms" />
-          </div>
-          <button>Submit</button>
-          <p>* - required</p>
-        </Form>
+            <div className="comment">
+              <label>Comment</label>
+              <Field as="textarea" name="comment" />
+            </div>
+            <fieldset>
+              <legend>Choose a payment method</legend>
+              <Field name="payment" component={FormRadio} />
+            </fieldset>
+            <Field
+              as="select"
+              name="delivery"
+              label="Choose a delivery method"
+              component={FormSelect}
+            />
+            <div className="date">
+              <Field
+                type="date"
+                name="date"
+                label="Delivery Date"
+                component={FormInput}
+              />
+            </div>
+            <div>
+              <Field
+                type="checkbox"
+                name="terms"
+                id="terms"
+                label="I accept the terms and conditions for
+                signing up to this service, and hereby confirm I have read the privacy policy."
+                component={FormInput}
+              />
+            </div>
+            <button type="submit" disabled={!isValid}>
+              Submit
+            </button>
+          </Form>
+        )}
       </Formik>
     );
   }

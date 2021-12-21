@@ -1,13 +1,7 @@
 import React from "react";
 
-const FormSelect = ({ form, field, label }) => {
+const FormSelect = ({ form, field, label, options }) => {
   const { errors, touched } = form;
-
-  const deliveryMethods = [
-    { value: "ems", label: "EMS" },
-    { value: "post", label: "Post" },
-    { value: "free", label: "Free" },
-  ];
 
   return (
     <div className="delivery">
@@ -16,7 +10,7 @@ const FormSelect = ({ form, field, label }) => {
         <option disabled value="">
           ...
         </option>
-        {deliveryMethods.map((i) => (
+        {options.map((i) => (
           <option key={i.value} value={i.value}>
             {i.label}
           </option>

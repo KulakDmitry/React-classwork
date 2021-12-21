@@ -1,17 +1,16 @@
 import React from "react";
 
-const FormRadio = ({ form, field }) => {
+const FormRadio = ({ form, field, options }) => {
   const { errors, touched, setFieldValue } = form;
 
-  const paymentMethods = [
-    { value: "card", label: "Card" },
-    { value: "cash", label: "Cash" },
-  ];
+  const handle = (e) => {
+    setFieldValue(field.name, e.target.value);
+  };
 
   return (
     <>
       <div className="payment">
-        {paymentMethods.map((i) => (
+        {options.map((i) => (
           <div key={i.value}>
             <label htmlFor={i.value}>{i.label}</label>
             <input
@@ -20,6 +19,8 @@ const FormRadio = ({ form, field }) => {
               name="payment"
               id={i.value}
               value={i.value}
+              checked={i.value === field.value}
+              onChange={handle}
             />
           </div>
         ))}

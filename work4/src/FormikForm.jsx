@@ -7,6 +7,17 @@ import FormRadio from "./FormRadio";
 
 const regex = /^(0*[1-9][0-9]*(\.[0-9]*)?|0*\.[0-9]*[1-9][0-9]*)$/;
 
+const deliveryMethods = [
+  { value: "ems", label: "EMS" },
+  { value: "post", label: "Post" },
+  { value: "free", label: "Free" },
+];
+
+const paymentMethods = [
+  { value: "card", label: "Card" },
+  { value: "cash", label: "Cash" },
+];
+
 export default class FormikForm extends Component {
   render() {
     return (
@@ -19,7 +30,7 @@ export default class FormikForm extends Component {
           city: "",
           address: "",
           comment: "",
-          payment: "",
+          payment: "cash",
           date: "",
           delivery: "",
           terms: false,
@@ -43,7 +54,10 @@ export default class FormikForm extends Component {
           city: Yup.string().required("city is required"),
           address: Yup.string().required("address is required"),
           payment: Yup.string().required("choose one of them"),
-          date: Yup.string().required("choose a date"),
+          date: Yup.date().min(
+            Date(),
+            "The nearest delivery date from tomorrow"
+          ),
           delivery: Yup.string().required("delivery is required"),
           terms: Yup.boolean().isTrue("need accept"),
         })}
@@ -77,13 +91,18 @@ export default class FormikForm extends Component {
             </div>
             <fieldset>
               <legend>Choose a payment method</legend>
-              <Field name="payment" component={FormRadio} />
+              <Field
+                name="payment"
+                component={FormRadio}
+                options={paymentMethods}
+              />
             </fieldset>
             <Field
               as="select"
               name="delivery"
               label="Choose a delivery method"
               component={FormSelect}
+              options={deliveryMethods}
             />
             <div className="date">
               <Field

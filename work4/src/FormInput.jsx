@@ -16,13 +16,13 @@ const FormInput = ({ form, field, label, type = "text", id = null }) => {
 
 FormInput.defaultProps = {
   id: null,
-  type: PropTypes.string,
+  type: null,
 };
 
 FormInput.propTypes = {
   label: PropTypes.string.isRequired,
-  type: PropTypes.string,
   id: PropTypes.string,
+  type: PropTypes.string,
 };
 
 export default FormInput;

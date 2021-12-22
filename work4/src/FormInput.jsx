@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 const FormInput = ({ form, field, label, type = "text", id = null }) => {
   const { errors, touched } = form;
@@ -11,6 +12,17 @@ const FormInput = ({ form, field, label, type = "text", id = null }) => {
       ) : null}
     </div>
   );
+};
+
+FormInput.defaultProps = {
+  id: null,
+  type: PropTypes.string,
+};
+
+FormInput.propTypes = {
+  label: PropTypes.string.isRequired,
+  type: PropTypes.string,
+  id: PropTypes.string,
 };
 
 export default FormInput;

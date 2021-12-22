@@ -44,7 +44,7 @@ export default class FormikForm extends Component {
             .required("first name is required")
             .max(20, "need less than 20"),
           email: Yup.string()
-            .email("Email should be in a correct format")
+            .email("Email should be in a correct format like 'email@mail.ru' ")
             .required("Email is required"),
           phoneNumber: Yup.string()
             .matches(regex, "need to enter only a number")
@@ -54,10 +54,9 @@ export default class FormikForm extends Component {
           city: Yup.string().required("city is required"),
           address: Yup.string().required("address is required"),
           payment: Yup.string().required("choose one of them"),
-          date: Yup.date().min(
-            Date(),
-            "The nearest delivery date from tomorrow"
-          ),
+          date: Yup.date()
+            .min(Date(), "The nearest delivery date from tomorrow")
+            .required("Date is required"),
           delivery: Yup.string().required("delivery is required"),
           terms: Yup.boolean().isTrue("need accept"),
         })}

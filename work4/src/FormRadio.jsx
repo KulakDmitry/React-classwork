@@ -1,4 +1,6 @@
 import React from "react";
+import PropTypes from "prop-types";
+import FormSelect from "./FormSelect";
 
 const FormRadio = ({ form, field, options }) => {
   const { errors, touched, setFieldValue } = form;
@@ -30,6 +32,12 @@ const FormRadio = ({ form, field, options }) => {
       ) : null}
     </>
   );
+};
+
+FormSelect.defaultProps = { options: null };
+
+FormRadio.propTypes = {
+  options: PropTypes.array,
 };
 
 export default FormRadio;

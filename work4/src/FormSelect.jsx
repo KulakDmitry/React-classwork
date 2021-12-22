@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 const FormSelect = ({ form, field, label, options }) => {
   const { errors, touched } = form;
@@ -21,6 +22,13 @@ const FormSelect = ({ form, field, label, options }) => {
       ) : null}
     </div>
   );
+};
+
+FormSelect.defaultProps = { options: null };
+
+FormSelect.propTypes = {
+  label: PropTypes.string.isRequired,
+  options: PropTypes.array,
 };
 
 export default FormSelect;

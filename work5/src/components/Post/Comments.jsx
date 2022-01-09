@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import AddComment from "./AddComment";
+import PropTypes from "prop-types";
 
 const COMMENTS_MIN_COUNT = 3;
 
@@ -18,12 +20,27 @@ class Comments extends Component {
     });
   };
   render() {
-    const { comments } = this.props;
+    const { comments, commentInput, onAddComment, currentUser } = this.props;
     const { commentSlice } = this.state;
+
+    const [currentUserComments, otherComments] = comments.reduce(
+      (result, currentComment) => {
+        if (currentComment.username === currentUser.username) {
+          result[0].push(currentComment);
+        } else {
+          result[1].push(currentComment);
+        }
+        return result;
+      },
+      [[], []]
+    );
+
+    const sortedComments = [...currentUserComments.reverse(), ...otherComments];
+
     return (
-      <div className="p-4 pt-0">
-        {comments.slice(0, commentSlice).map((com) => (
-          <p key={com.username} className="mb-1">
+      <div className="px-4 pt-0">
+        {sortedComments.slice(0, commentSlice).map((com, idx) => (
+          <p key={idx} className="mb-1">
             <a href="#">
               <span className="font-bold mr-1">{com.username}</span>
             </a>
@@ -31,7 +48,7 @@ class Comments extends Component {
             <span>{com.text}</span>
           </p>
         ))}
-        {comments.length > 3 && commentSlice < comments.length && (
+        {sortedComments.length > 3 && commentSlice < sortedComments.length && (
           <button
             onClick={this.handleViewMoreComments}
             type="button"
@@ -40,9 +57,24 @@ class Comments extends Component {
             View more comments
           </button>
         )}
+        <AddComment commentInput={commentInput} onAddComment={onAddComment} />
       </div>
     );
   }
 }
+
+Comments.propTypes = {
+  commentInput: PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
+  comments: PropTypes.arrayOf(
+    PropTypes.shape({
+      username: PropTypes.string.isRequired,
+      text: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  onAddComment: PropTypes.func.isRequired,
+  currentUser: PropTypes.shape({
+    username: PropTypes.string.isRequired,
+  }).isRequired,
+};
 
 export default Comments;

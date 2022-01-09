@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 function Image({ src, caption }) {
   return (
@@ -6,4 +7,12 @@ function Image({ src, caption }) {
   );
 }
 
+Image.defaulProps = {
+  caption: "No caption",
+};
+
+Image.propTypes = {
+  src: PropTypes.string.isRequired,
+  caption: PropTypes.string,
+};
 export default Image;
